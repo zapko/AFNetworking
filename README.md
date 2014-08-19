@@ -1,3 +1,5 @@
+This fork has additional methods in AFHTTPRequestOperationManager and AFHTTPRequestOperation that allow you to get rid of errors handling duplication and handle operation results in neat single block.
+
 <p align="center" >
   <img src="https://raw.github.com/AFNetworking/AFNetworking/assets/afnetworking-logo.png" alt="AFNetworking" title="AFNetworking">
 </p>
@@ -16,25 +18,6 @@ Choose AFNetworking for your next project, or migrate over your existing project
 - Read the ["Getting Started" guide](https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking), [FAQ](https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-FAQ), or [other articles on the Wiki](https://github.com/AFNetworking/AFNetworking/wiki)
 - Check out the [documentation](http://cocoadocs.org/docsets/AFNetworking/2.0.0/) for a comprehensive look at all of the APIs available in AFNetworking
 - Read the [AFNetworking 2.0 Migration Guide](https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide) for an overview of the architectural changes from 1.0.
-
-## Communication
-
-- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/afnetworking). (Tag 'afnetworking')
-- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/afnetworking).
-- If you **found a bug**, open an issue.
-- If you **have a feature request**, open an issue.
-- If you **want to contribute**, submit a pull request.
-
-### Installation with CocoaPods
-
-[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like AFNetworking in your projects. See the ["Getting Started" guide for more information](https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking).
-
-#### Podfile
-
-```ruby
-platform :ios, '7.0'
-pod "AFNetworking", "~> 2.0"
-```
 
 ## Requirements
 
@@ -89,10 +72,8 @@ pod "AFNetworking", "~> 2.0"
 
 ```objective-c
 AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-[manager GET:@"http://example.com/resources.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
+[manager GET:@"http://example.com/resources.json" parameters:nil completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
+    NSLog(@"Error: %@\nJSON: %@", error, responseObject);
 }];
 ```
 
@@ -101,10 +82,8 @@ AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager]
 ```objective-c
 AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 NSDictionary *parameters = @{@"foo": @"bar"};
-[manager POST:@"http://example.com/resources.json" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
+[manager POST:@"http://example.com/resources.json" parameters:parameters completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
+    NSLog(@"Error: %@\nJSON: %@", error, responseObject);
 }];
 ```
 
@@ -116,10 +95,8 @@ NSDictionary *parameters = @{@"foo": @"bar"};
 NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
 [manager POST:@"http://example.com/resources.json" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     [formData appendPartWithFileURL:filePath name:@"image" error:nil];
-} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    NSLog(@"Success: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
+} completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
+    NSLog(@"Error: %@\nRespose: %@", error, responseObject);
 }];
 ```
 
