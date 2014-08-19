@@ -146,7 +146,7 @@
                      completion:(AFHTTPRequestCompletion)completion
 {
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET" URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:nil];
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:completion completion:completion];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request completion:completion];
     
     [self.operationQueue addOperation:operation];
     
