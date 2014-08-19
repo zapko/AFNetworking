@@ -148,6 +148,33 @@ static dispatch_group_t http_request_operation_completion_group() {
 #pragma clang diagnostic pop
 }
 
+- (void)setCompletionBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject, NSError *error))complete
+{
+        // completionBlock is manually nilled out in AFURLConnectionOperation to break the retain cycle.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
+#pragma clang diagnostic ignored "-Wgnu"
+    self.completionBlock = ^{
+        if (self.completionGroup) {
+            dispatch_group_enter(self.completionGroup);
+        }
+        
+        dispatch_async(http_request_operation_processing_queue(), ^{
+            if (complete) {
+                dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
+                    complete(self, self.responseObject, self.error);
+                });
+            }
+            
+            if (self.completionGroup) {
+                dispatch_group_leave(self.completionGroup);
+            }
+        });
+    };
+#pragma clang diagnostic pop
+}
+
+
 #pragma mark - AFURLRequestOperation
 
 - (void)pause {

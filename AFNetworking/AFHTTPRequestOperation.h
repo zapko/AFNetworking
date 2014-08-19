@@ -23,6 +23,11 @@
 #import <Foundation/Foundation.h>
 #import "AFURLConnectionOperation.h"
 
+
+@class AFHTTPRequestOperation;
+typedef void(^AFHTTPRequestCompletion)(AFHTTPRequestOperation *operation, id responseObject, NSError *error);
+
+
 /**
  `AFHTTPRequestOperation` is a subclass of `AFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
  */
@@ -63,5 +68,8 @@
  */
 - (void)setCompletionBlockWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (void)setCompletionBlock:(AFHTTPRequestCompletion)complete;
+
 
 @end
