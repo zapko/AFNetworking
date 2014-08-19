@@ -118,7 +118,7 @@
     operation.credential = self.credential;
     operation.securityPolicy = self.securityPolicy;
     
-    [operation setCompletionBlock:completion];
+    [operation setRequestCompletionBlock:completion];
     operation.completionQueue = self.completionQueue;
     operation.completionGroup = self.completionGroup;
     

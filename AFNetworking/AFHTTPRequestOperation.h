@@ -69,7 +69,7 @@ typedef void(^AFHTTPRequestCompletion)(AFHTTPRequestOperation *operation, id res
 - (void)setCompletionBlockWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
-- (void)setCompletionBlock:(AFHTTPRequestCompletion)complete;
+- (void)setRequestCompletionBlock:(AFHTTPRequestCompletion)complete;
 
 
 @end

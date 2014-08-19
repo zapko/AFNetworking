@@ -148,7 +148,7 @@ static dispatch_group_t http_request_operation_completion_group() {
 #pragma clang diagnostic pop
 }
 
-- (void)setCompletionBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject, NSError *error))complete
+- (void)setRequestCompletionBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject, NSError *error))complete
 {
         // completionBlock is manually nilled out in AFURLConnectionOperation to break the retain cycle.
 #pragma clang diagnostic push
