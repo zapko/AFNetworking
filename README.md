@@ -1,4 +1,4 @@
-This fork has additional methods in AFHTTPRequestOperationManager and AFHTTPRequestOperation that allow you to get rid of errors handling duplication and handle operation results in neat single block.
+This fork has additional methods in `AFHTTPRequestOperationManager` and `AFHTTPRequestOperation` classes that allow you to get rid of errors handling duplication and handle operation results in neat single block.
 
 <p align="center" >
   <img src="https://raw.github.com/AFNetworking/AFNetworking/assets/afnetworking-logo.png" alt="AFNetworking" title="AFNetworking">
