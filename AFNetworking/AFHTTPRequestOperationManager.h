@@ -196,6 +196,14 @@
 - (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)request
 												 completion:(AFHTTPRequestCompletion)completion;
 
+/**
+ Cancels all `AFHTTPRequestOperations` in `operationsQueue` with specified method and path
+ 
+ @param method HTTP method of request to be canceled
+ @param path   Relative path of requests to be canceled
+ */
+- (void)cancelAllHTTPOperationsWithMethod:(NSString *)method path:(NSString *)path;
+
 
 ///---------------------------
 /// @name Making HTTP Requests

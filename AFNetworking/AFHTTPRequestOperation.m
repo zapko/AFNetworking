@@ -155,12 +155,24 @@ static dispatch_group_t http_request_operation_completion_group() {
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
 #pragma clang diagnostic ignored "-Wgnu"
     self.completionBlock = ^{
-        if (self.completionGroup) {
+		if (self.completionGroup) {
             dispatch_group_enter(self.completionGroup);
         }
         
         dispatch_async(http_request_operation_processing_queue(), ^{
-            if (complete) {
+
+#ifdef DEBUG
+			NSLog(@"\n-------------------\nResults for %@\n-------------------\nRequest header:\n%@\nRequest body:\n%@\n\nError description:%@\nError info:\n%@\nResponse header:\n%@\nResponse body:\n%@",
+				 [self.request URL],
+				 [self.request allHTTPHeaderFields],
+				 [[NSString alloc] initWithData:self.request.HTTPBody encoding:NSUTF8StringEncoding],
+				 self.error.localizedDescription,
+				 self.error.userInfo,
+				 [self.response allHeaderFields],
+				 self.responseObject);
+#endif
+
+			if (complete) {
                 dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
                     complete(self, self.responseObject, self.error);
                 });

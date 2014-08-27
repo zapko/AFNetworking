@@ -125,6 +125,25 @@
     return operation;
 }
 
+- (void)cancelAllHTTPOperationsWithMethod:(NSString *)method path:(NSString *)path
+{
+	for (AFHTTPRequestOperation *operation in self.operationQueue.operations)
+	{
+		if (![operation isKindOfClass:[AFHTTPRequestOperation class]]) { continue; }
+		
+		NSURLRequest *request = operation.request;
+		if (![request.HTTPMethod isEqualToString:method]) { continue; }
+
+		NSCharacterSet *slash = [NSCharacterSet characterSetWithCharactersInString:@"/"];
+		NSString *operationPath = [request.URL.relativePath stringByTrimmingCharactersInSet:slash];
+		path = [path stringByTrimmingCharactersInSet:slash];
+
+		if ([operationPath rangeOfString:path options:NSCaseInsensitiveSearch | NSAnchoredSearch].location == NSNotFound) { continue; }
+
+		[operation cancel];
+	}
+}
+
 
 #pragma mark -
 
